@@ -34,7 +34,7 @@ namespace PortfolioFunctions.Functions
         public async Task<HttpResponseData> GetWorkExperiences(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "work-experiences")] HttpRequestData req)
         {
-            _logger.LogInformation("Retrieving work experiences from Cosmos DB.");
+            _logger.LogInformation("Retrieving work experiences from the experience service.");
 
             var workExperiences = new List<WorkExperience>();
             var query = new QueryDefinition("SELECT * FROM c");
@@ -60,7 +60,7 @@ namespace PortfolioFunctions.Functions
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "work-experiences/{id}")] HttpRequestData req,
             string id)
         {
-            _logger.LogInformation("Retrieving a work experience by id from Cosmos DB.");
+            _logger.LogInformation("Retrieving a work experience by id from the experience service.");
 
             try
             {
@@ -175,7 +175,7 @@ namespace PortfolioFunctions.Functions
             if (!AuthHelper.IsAuthenticated(req))
                 return req.CreateResponse(HttpStatusCode.Unauthorized);
 
-            _logger.LogInformation("Deleting a work experience from Cosmos DB.");
+            _logger.LogInformation("Deleting a work experience from the experience service.");
 
             try
             {
