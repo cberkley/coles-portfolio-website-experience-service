@@ -10,8 +10,16 @@ var builder = FunctionsApplication.CreateBuilder(args);
 
 builder.ConfigureFunctionsWebApplication();
 
-builder.Services.AddOpenTelemetry()
-    .UseFunctionsWorkerDefaults()
-    .UseAzureMonitorExporter();
+var openTelemetryBuilder = builder.Services.AddOpenTelemetry()
+    .UseFunctionsWorkerDefaults();
+
+var appInsightsConnectionString = Environment.GetEnvironmentVariable("APPLICATIONINSIGHTS_CONNECTION_STRING");
+if (!string.IsNullOrWhiteSpace(appInsightsConnectionString))
+{
+    openTelemetryBuilder.UseAzureMonitorExporter(options =>
+    {
+        options.ConnectionString = appInsightsConnectionString;
+    });
+}
 
 builder.Build().Run();
