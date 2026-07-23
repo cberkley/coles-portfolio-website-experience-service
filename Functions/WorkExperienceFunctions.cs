@@ -9,10 +9,10 @@ using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Attributes;
 using Microsoft.Azure.WebJobs.Extensions.OpenApi.Core.Enums;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using PortfolioFunctions.Models;
-using PortfolioFunctions.Utility;
+using ProjectsServiceFuncitons.Models;
+using ProjectsServiceFuncitons.Utility;
 
-namespace PortfolioFunctions.Functions
+namespace ProjectsServiceFuncitons.Functions
 {
     public class WorkExperienceFunctions
     {

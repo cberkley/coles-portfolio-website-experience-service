@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using System.Text.Json.Serialization;
 
-namespace PortfolioFunctions.Models
+namespace ProjectsServiceFuncitons.Models
 {
     public class WorkExperience
     {

@@ -1,15 +1,32 @@
 using Microsoft.Azure.Functions.Worker.Http;
 
-namespace PortfolioFunctions.Utility
+namespace ProjectsServiceFuncitons.Utility
 {
     public static class AuthHelper
     {
-        // I am the only user who needs elevated permissions I realize this is not enough for a 
-        // production application but it is enough for my personal portfolio. I will be the only 
-        // user who needs elevated permissions so I am just checking if the user is authenticated 
-        // and not checking if they are authorized to perform any specific actions.
-        public static bool IsAuthenticated(HttpRequestData req) =>
-            req.Headers.TryGetValues("X-MS-CLIENT-PRINCIPAL-ID", out var values) &&
-            !string.IsNullOrWhiteSpace(System.Linq.Enumerable.FirstOrDefault(values));
+        public static bool IsAuthenticated(HttpRequestData req)
+        {
+            var expectedPrincipalId = Environment.GetEnvironmentVariable("AdminClientPrincipalId");
+            if (string.IsNullOrWhiteSpace(expectedPrincipalId))
+            {
+                return false;
+            }
+
+            if (!req.Headers.TryGetValues("X-MS-CLIENT-PRINCIPAL-ID", out var values))
+            {
+                return false;
+            }
+
+            var principalId = System.Linq.Enumerable.FirstOrDefault(values);
+            if (string.IsNullOrWhiteSpace(principalId))
+            {
+                return false;
+            }
+
+            return string.Equals(
+                principalId.Trim(),
+                expectedPrincipalId.Trim(),
+                StringComparison.OrdinalIgnoreCase);
+        }
     }
 }
